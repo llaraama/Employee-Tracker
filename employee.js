@@ -78,6 +78,79 @@ function start() {
       });
   }
 
+  function addDepartment() {
+    inquirer.prompt([
+      {
+        name:"department",
+        type:"input",
+        message: "What is the department name?"
+  
+      },
+  
+    ]).then(function(answer){
+      connection.query(
+        "INSERT INTO department SET ?",
+        {
+          
+             dep_name:answer.department
+  
+        },
+        function(err){
+          if (err) throw err;
+          console.log("successfully added department")
+          start();
+        }
+      )
+    });
+  }
+  
+
+
+  function removeDepartment() {
+    connection.query("SELECT * FROM department", function(err, results) {
+      if (err) throw err;
+    inquirer.prompt([
+      {
+        name: "deldepartment",
+        type: "rawlist",
+        choices: function() {
+          var depArray = [];
+          for (var i = 0; i < results.length; i++) {
+            depArray.push(results[i].dep_name);
+          }
+          return depArray;
+        },
+        message: "What department would you like to delete"
+      },
+  
+    ]).then(function(answer){
+  
+      var chosenItem;
+      for (var i = 0; i < results.length; i++) {
+        if (results[i].dep_name === answer.deldepartment) {
+          chosenItem = results[i];
+        }
+      }
+      
+  
+        connection.query(
+          "DELETE FROM department WHERE ?",
+          [
+            {
+              dep_name: answer.deldepartment
+            }
+          ],
+          function(error) {
+            if (error) throw err;
+            console.log("Department deleted successfully!");
+            start();
+          }
+        );
+  
+    });
+  });
+  }
+     
   function viewAllEmployees() {
     connection.query("SELECT employees.first_name, employees.last_name, roles.title, roles.salary, department.dep_name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employees INNER JOIN roles on roles.role_id = employees.role_id INNER JOIN department on dep_id = roles.department_id left join employees e on employees.manager_id = e.emp_id;", 
     function(err, res) {
