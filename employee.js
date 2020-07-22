@@ -78,26 +78,55 @@ function start() {
       });
   }
 
-  var roleArr = [];
+  function viewAllEmployees() {
+    connection.query("SELECT employees.first_name, employees.last_name, roles.title, roles.salary, department.dep_name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employees INNER JOIN roles on roles.role_id = employees.role_id INNER JOIN department on dep_id = roles.department_id left join employees e on employees.manager_id = e.emp_id;", 
+    function(err, res) {
+      if (err) throw err
+      console.table(res)
+      start()
+    })
+  }
+  
+  function viewAllRoles() {
+    connection.query("SELECT employees.first_name, employees.last_name, roles.title AS Title FROM employees JOIN roles ON employees.role_id = roles.role_id;", 
+    function(err, res) {
+      if (err) throw err
+      console.table(res)
+      start()
+    })
+  }
+  
+  function viewAllDepartments() {
+    connection.query("SELECT employees.first_name, employees.last_name, department.dep_name AS Department FROM employees JOIN roles ON employees.role_id = roles.role_id JOIN department ON roles.department_id = department.dep_id ORDER BY employees.emp_id;", 
+    function(err, res) {
+      if (err) throw err
+      console.table(res)
+      start()
+    })
+  }
+  
+
+
+  var roleArray = [];
   function selectRole() {
     connection.query("SELECT * FROM roles", function(err, res) {
       if (err) throw err
       for (var i = 0; i < res.length; i++) {
-        roleArr.push(res[i].title);
+        roleArray.push(res[i].title);
       }
     })
-    return roleArr;
+    return roleArray;
   }
   
-  var managersArr = [];
+  var managersArray = [];
   function selectManager() {
     connection.query("SELECT first_name, last_name FROM employees WHERE manager_id IS NULL", function(err, res) {
       if (err) throw err
       for (var i = 0; i < res.length; i++) {
-        managersArr.push(res[i].first_name);
+        managersArray.push(res[i].first_name);
       }
     })
-    return managersArr;
+    return managersArray;
   }
   
   
