@@ -103,19 +103,19 @@ function addEmployee() {
         message: "What is their manager's name?",
         choices: selectManager()
       }
-  ]).then(function (val) {
-    var roleId = selectRole().indexOf(val.role)
-    var managerId = selectManager().indexOf(val.choice)
+  ]).then(function (answer) {
+    var roleId = selectRole().indexOf(answer.role)
+    var managerId = selectManager().indexOf(answer.choice)
     connection.query("INSERT INTO employees SET ?", 
     {
-        first_name: val.firstname,
-        last_name: val.lastname,
+        first_name: answer.firstname,
+        last_name: answer.lastname,
         manager_id: managerId,
         role_id: roleId
         
     }, function(err){
         if (err) throw err
-        console.table(val)
+        console.table(answer)
         viewAllEmployees()
         start()
     })
@@ -137,16 +137,16 @@ function addRole() {
 
       } 
     ])
-    .then(function(res) {
+    .then(function(answer) {
       connection.query(
           "INSERT INTO roles SET ?", 
           {
-            title: res.title,
-            salary: res.salary,
+            title: answer.title,
+            salary: answer.salary,
           },
           function(err) {
             if (err) throw err
-            console.table(res);
+            console.table(answer);
             start();
           }
         )
@@ -247,12 +247,12 @@ function updateEmployee() {
           choices: selectRole()
         },
     ])
-    .then(function(val) {
-      var roleId = selectRole().indexOf(val.role)
+    .then(function(answer) {
+      var roleId = selectRole().indexOf(answer.role)
       connection.query("UPDATE employees SET ? WHERE ?", 
       [
         {
-          last_name: val.lastName
+          last_name: answer.lastName
         }, 
         {
           role_id: roleId
@@ -260,7 +260,7 @@ function updateEmployee() {
       ],
       function(err){
           if (err) throw err
-          console.table(val)
+          console.table(answer)
           start()
       })
     });
@@ -294,26 +294,26 @@ function viewAllDepartments() {
   })
 }
 
-var roleArr = [];
+var roleArray = [];
 function selectRole() {
   connection.query("SELECT * FROM roles", function(err, res) {
     if (err) throw err
     for (var i = 0; i < res.length; i++) {
-      roleArr.push(res[i].title);
+      roleArray.push(res[i].title);
     }
   })
-  return roleArr;
+  return roleArray;
 }
 
-var managersArr = [];
+var managersArray = [];
 function selectManager() {
   connection.query("SELECT first_name, last_name FROM employees WHERE manager_id IS NULL", function(err, res) {
     if (err) throw err
     for (var i = 0; i < res.length; i++) {
-      managersArr.push(res[i].first_name);
+      managersArray.push(res[i].first_name);
     }
   })
-  return managersArr;
+  return managersArray;
 }
 
 
