@@ -77,7 +77,39 @@ function start() {
         }
       });
   }
-
+  function addRole() { 
+    connection.query("SELECT roles.title AS Title, roles.salary AS Salary FROM roles",   
+    function(err, res) {
+      inquirer.prompt([
+        {
+          name: "title",
+          type: "input",
+          message: "What is the new title?"
+        },
+        {
+          name: "salary",
+          type: "input",
+          message: "What is the salary?"
+  
+        } 
+      ])
+      .then(function(res) {
+        connection.query(
+            "INSERT INTO roles SET ?", 
+            {
+              title: res.title,
+              salary: res.salary,
+            },
+            function(err) {
+              if (err) throw err
+              console.table(res);
+              start();
+            }
+          )
+      });
+    });
+    }
+  
   function addDepartment() {
     inquirer.prompt([
       {
