@@ -66,6 +66,7 @@ Clone this repo to your local machine using: https://github.com/llaraama/Employe
 
 ## Usage
 ![Employee Tracker](Assets/employee-tracker.gif)
+
 Video Functionality: https://drive.google.com/file/d/1z3hiMBjP2ii3ZuOWR4yV_jMXVkW6F0f_/view
 
 
