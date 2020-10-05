@@ -1,6 +1,8 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 const cTable = require('console.table');
+require('dotenv').config();
+
 // create the connection information for the sql database
 var connection = mysql.createConnection({
   host: "localhost",
@@ -12,7 +14,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "Andrea0223*",
+  password: process.env.dbpassword,
   database: "employee_DB"
 });
 
