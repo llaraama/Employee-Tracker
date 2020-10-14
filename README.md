@@ -1,4 +1,7 @@
-# Employee-Tracker Using MySQL
+# Employee-Tracker
+
+### Using MySQL
+
 ### Video Functionality: 
 https://drive.google.com/file/d/1z3hiMBjP2ii3ZuOWR4yV_jMXVkW6F0f_/view
 
