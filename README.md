@@ -50,7 +50,6 @@ As a business owner
 I want to be able to view and manage the departments, roles, and employees in my company
 So that I can organize and plan my business
 ```
-
   * The command-line application allow users to:
 
   * Add departments, roles, employees
@@ -67,7 +66,6 @@ Clone this repo to your local machine using: https://github.com/llaraama/Employe
 ![Employee Tracker](Assets/employee-tracker.gif)
 
 Video Functionality: https://drive.google.com/file/d/1z3hiMBjP2ii3ZuOWR4yV_jMXVkW6F0f_/view
-
 
 ## License 
 MIT License 
